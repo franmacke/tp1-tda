@@ -1,6 +1,5 @@
 import sys
-from utils import leer_archivo
-
+from greedy import algoritmo
 
 def main(argv):
 
@@ -10,7 +9,8 @@ def main(argv):
 
     input_file = argv[1]
 
-    timestamps, transacciones = leer_archivo(input_file)
+    respuesta = algoritmo(input_file)
+    print(respuesta)
 
 
 if __name__ == "__main__":
