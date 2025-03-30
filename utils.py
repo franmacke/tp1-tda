@@ -27,6 +27,7 @@ def leer_archivo(path) -> tuple:
 
 def leer_archivos_respuestas(file_path):
     data = {}
+    current_file = None
 
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:

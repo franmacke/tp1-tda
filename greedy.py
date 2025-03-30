@@ -1,45 +1,51 @@
 from utils import leer_archivo
-
+from collections import deque
 
 def algoritmo(path):
     resultado = []
     timestamps, transacciones = leer_archivo(path)
 
-    sorted_timestamps = sorted(timestamps, key=lambda x: x[1], reverse=False)     # Acá estoy ordenando por la menor ventana de error
+    sorted_timestamps = sorted(timestamps, key=lambda x: x[1] , reverse=False)
+    transacciones = deque(transacciones)
 
+    for timestamp, error in sorted_timestamps:
+        transaccion = buscar_transaccion_mas_cercana(transacciones, timestamp)
 
-    for i in range(len(sorted_timestamps)):
-        transaccion = buscar_transaccion_mas_cercana(transacciones, sorted_timestamps[i][0])
-
-        if dentro_de_rango(transaccion, sorted_timestamps[i]):
-            resultado.append((transaccion, sorted_timestamps[i][0], sorted_timestamps[i][1]))
-            transacciones.remove(transaccion)
-        else:
+        if transaccion is None or not dentro_de_rango(transaccion, (timestamp, error)):
+            print(f"Transacción {transaccion} no está dentro del rango de {timestamp} ± {error}")
             return []
 
-    return resultado
+        resultado.append((transaccion, timestamp, error))
+        transacciones.remove(transaccion)
 
+
+    return list(sorted(resultado, key=lambda x: x[0]))
 
 def buscar_transaccion_mas_cercana(transacciones, timestamp):
     """
-    :param transacciones: list, lista de transacciones ordenadas
-    :param timestamp: int, timestamp a buscar
-    :return: int, transaccion más cercana al timestamp
+    Encuentra la transacción más cercana al timestamp dado usando búsqueda binaria.
+
+    :param transacciones: list, lista ordenada de timestamps de transacciones.
+    :param timestamp: int, timestamp a buscar.
+    :return: int, la transacción más cercana al timestamp.
     """
+    if not transacciones:
+        return None
 
     izquierda, derecha = 0, len(transacciones) - 1
     mejor_candidato = transacciones[0]
 
     while izquierda <= derecha:
         medio = (izquierda + derecha) // 2
+        actual = transacciones[medio]
 
-        if abs(transacciones[medio] - timestamp) < abs(mejor_candidato - timestamp):
-            mejor_candidato = transacciones[medio]
+        if actual == timestamp:
+            return actual
 
-        if transacciones[medio] == timestamp:
-            return transacciones[medio]
+        if abs(actual - timestamp) < abs(mejor_candidato - timestamp):
+            mejor_candidato = actual
 
-        if transacciones[medio] < timestamp:
+        if actual < timestamp:
             izquierda = medio + 1
         else:
             derecha = medio - 1
