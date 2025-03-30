@@ -10,7 +10,7 @@ def main(argv):
 
     if argv[1] == "test":
         loader = unittest.TestLoader()
-        tests = loader.discover('./tests', pattern='test_*.py')  # Busca archivos test_*.py
+        tests = loader.discover('./tests', pattern='test_*.py')
         test_runner = unittest.TextTestRunner()
         test_runner.run(tests)
         sys.exit(0)
