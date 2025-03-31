@@ -5,21 +5,23 @@ def algoritmo(path):
     resultado = []
     timestamps, transacciones = leer_archivo(path)
 
-    sorted_timestamps = sorted(timestamps, key=lambda x: x[0] - x[1] , reverse=False)
-    transacciones = deque(sorted((transacciones)))
+
+    sorted_timestamps = sorted(timestamps, key=lambda x: x[0] + x[1])
+    mapped_timestamps = [(timestamp, error, timestamp + error) for timestamp, error in sorted_timestamps]
+    transacciones = deque(sorted(transacciones))
 
     for timestamp, error in sorted_timestamps:
-        transaccion = buscar_transaccion_mas_cercana(transacciones, timestamp - error)
-
-        if transaccion is None or not dentro_de_rango(transaccion, (timestamp, error)):
-            print(f"Transacción {transaccion} no está dentro del rango de {timestamp} ± {error}")
+        if not transacciones:
             return []
 
-        resultado.append((transaccion, timestamp, error))
-        transacciones.remove(transaccion)
+        transaccion_actual = transacciones.popleft()
 
+        if not dentro_de_rango(transaccion_actual, (timestamp, error)):
+            return []
 
-    return list(sorted(resultado, key=lambda x: x[0]))
+        resultado.append((transaccion_actual, timestamp, error))
+
+    return sorted(resultado, key=lambda x: x[0])
 
 def buscar_transaccion_mas_cercana(transacciones, timestamp):
     """
