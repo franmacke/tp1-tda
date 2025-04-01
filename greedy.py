@@ -12,7 +12,7 @@ def algoritmo(path):
         mejor_timestamp = buscar_mejor_timestamp(sorted_timestamps, transaccion, index)
 
         if mejor_timestamp is None:
-            return []
+            return "No es el sospechoso correcto"
 
         resultado.append((transaccion, mejor_timestamp[0], mejor_timestamp[1]))
         sorted_timestamps.remove(mejor_timestamp)

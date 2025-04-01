@@ -31,5 +31,5 @@ class CorridasTestCase(TestCase):
             with self.subTest(archivo=archivo):
                 resultado = algoritmo("data/" + archivo)
 
-                self.assertEqual(resultado, [], f"Error en {archivo}: Se esperaba un resultado vacío")
+                self.assertEqual(resultado, "No es el sospechoso correcto", f"Error en {archivo}: Se esperaba un resultado vacío")
 
