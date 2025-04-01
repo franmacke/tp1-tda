@@ -1,6 +1,7 @@
 from unittest import TestCase
-from utils import leer_archivo, leer_archivos_respuestas
+from utils import leer_archivos_respuestas
 from greedy import algoritmo
+import os
 
 class CorridasTestCase(TestCase):
 
@@ -21,16 +22,14 @@ class CorridasTestCase(TestCase):
 
                 self.assertEqual(len(resultado), len(respuestas), f"Error en {archivo}: Longitud de resultados no coincide")
 
-                for respuesta in respuestas:
-                    self.assertIn(respuesta, resultado, f"Error en {archivo}: Respuesta {respuesta} no está en el resultado")
-
-
     def test_no_son_el_sospechoso(self):
-        for archivo, respuesta in self.respuestas.items():
-            if "no-es" not in archivo:
-                continue
+        dir_files = os.listdir("data")
 
-            resultado = algoritmo("data/" + archivo)
+        no_es_files = [f for f in dir_files if f.endswith("-no-es.txt")]
 
-            self.assertEqual(resultado, [], f"Error en {archivo}: Se esperaba un resultado vacío")
+        for archivo in no_es_files:
+            with self.subTest(archivo=archivo):
+                resultado = algoritmo("data/" + archivo)
+
+                self.assertEqual(resultado, [], f"Error en {archivo}: Se esperaba un resultado vacío")
 

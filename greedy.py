@@ -5,55 +5,42 @@ def algoritmo(path):
     resultado = []
     timestamps, transacciones = leer_archivo(path)
 
-
-    sorted_timestamps = sorted(timestamps, key=lambda x: x[0] + x[1])
-    mapped_timestamps = [(timestamp, error, timestamp + error) for timestamp, error in sorted_timestamps]
+    sorted_timestamps = sorted(timestamps, key=lambda x: x[0])
     transacciones = deque(sorted(transacciones))
 
-    for timestamp, error in sorted_timestamps:
-        if not transacciones:
+    for index, transaccion in enumerate(transacciones):
+        mejor_timestamp = buscar_mejor_timestamp(sorted_timestamps, transaccion, index)
+
+        if mejor_timestamp is None:
             return []
 
-        transaccion_actual = transacciones.popleft()
-
-        if not dentro_de_rango(transaccion_actual, (timestamp, error)):
-            return []
-
-        resultado.append((transaccion_actual, timestamp, error))
+        resultado.append((transaccion, mejor_timestamp[0], mejor_timestamp[1]))
+        sorted_timestamps.remove(mejor_timestamp)
 
     return sorted(resultado, key=lambda x: x[0])
 
-def buscar_transaccion_mas_cercana(transacciones, timestamp):
-    """
-    Encuentra la transacción más cercana al timestamp dado usando búsqueda binaria.
 
-    :param transacciones: list, lista ordenada de timestamps de transacciones.
-    :param timestamp: int, timestamp a buscar.
-    :return: int, la transacción más cercana al timestamp.
+def buscar_mejor_timestamp(timestamps, transaccion, index):
     """
-    if not transacciones:
+    Busca el mejor timestamp para una transacción dada.
+
+    :param timestamps: list, lista de timestamps ordenada por timestamp.
+    :param transaccion: int, transacción a buscar.
+
+    :return: tuple, el mejor timestamp y su error.
+    """
+
+    opciones = []
+    for timestamp, error in timestamps:
+        if dentro_de_rango(transaccion, (timestamp, error)):
+            opciones.append((timestamp, error))
+
+    if not opciones:
         return None
 
-    izquierda, derecha = 0, len(transacciones) - 1
-    mejor_candidato = transacciones[0]
+    menor_error = min(opciones, key=lambda x: x[0] + x[1] - transaccion)
 
-    while izquierda <= derecha:
-        medio = (izquierda + derecha) // 2
-        actual = transacciones[medio]
-
-        if actual == timestamp:
-            return actual
-
-        if abs(actual - timestamp) < abs(mejor_candidato - timestamp):
-            mejor_candidato = actual
-
-        if actual < timestamp:
-            izquierda = medio + 1
-        else:
-            derecha = medio - 1
-
-    return mejor_candidato
-
+    return menor_error
 
 
 def dentro_de_rango(transaccion, timestamp):
