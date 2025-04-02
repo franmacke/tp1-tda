@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 import scipy as sp
 
-from utils import time_algorithm
+from utilidad import time_algorithm
 from greedy import algoritmo
 
 # Siempre seteamos la seed de aleatoridad para que los resultados sean reproducibles
@@ -18,18 +18,22 @@ sns.set_theme()
 #_____________________CALCULO DE COMPLEJIDAD CON TIME_ALGORITHM_______________________________#
 
 
-def get_random_array(size: int):
-    return np.random.randint(0, 100.000, size)
+def get_random_timestamps_with_errors(size: int):
+    # Generamos un arreglo de tuplas (timestamp, error) donde:
+    # - 'timestamp' está en el rango [0, 100000)
+    # - 'error' está en el rango [1, 100)
+    return [(np.random.randint(0, 100000), np.random.randint(1, 101)) for _ in range(size)]
+
 
 # La variable x van a ser los valores del eje x de los gráficos en todo el notebook
 # Tamaño mínimo=100, tamaño máximo=10kk, cantidad de puntos=20
 x = np.linspace(100, 10_000_000, 20).astype(int)
 
-results = time_algorithm(algoritmo, x, lambda s: [get_random_array(s)])
+results = time_algorithm(algoritmo, x, lambda s: [get_random_timestamps_with_errors(s)])
 ax: plt.Axes
 fig, ax = plt.subplots()
 ax.plot(x, [results[i] for i in x], label="Medición")
-ax.set_title('Tiempo de ejecución de sorted')
+ax.set_title('Tiempo de ejecución de algoritmo')
 ax.set_xlabel('Tamaño del array')
 ax.set_ylabel('Tiempo de ejecución (s)')
 None
