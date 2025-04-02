@@ -71,7 +71,7 @@ Error cuadratico total = 6.65e-01
 """
 
 #GRAFICO (LO QUE DEBERIA SALIR)
-ax.plot(x, [c[0] * n * np.log(n) + c[1] for n in x], 'r--', label="Ajuste")
+ax.plot(x, [c[0] * n * n + c[1] for n in x], 'r--', label="Ajuste")
 ax.legend()
 fig
 
