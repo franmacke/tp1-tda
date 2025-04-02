@@ -75,3 +75,13 @@ ax.plot(x, [c[0] * n * n + c[1] for n in x], 'r--', label="Ajuste")
 ax.legend()
 fig
 
+
+ax: plt.Axes
+fig, ax = plt.subplots()
+errors = [np.abs(c[0] * n * n + c[1] - results[n]) for n in x]
+ax.plot(x, errors)
+ax.set_title('Error de ajuste')
+ax.set_xlabel('Tamaño del array')
+ax.set_ylabel('Error absoluto (s)')
+None
+
