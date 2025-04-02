@@ -29,7 +29,7 @@ def get_random_timestamps_with_errors(size: int):
 # Tamaño mínimo=100, tamaño máximo=10kk, cantidad de puntos=20
 x = np.linspace(100, 10_000_000, 20).astype(int)
 
-results = time_algorithm(algoritmo, x, lambda s: [get_random_timestamps_with_errors(s)])
+results = time_algorithm(algoritmo, x, lambda s: get_random_timestamps_with_errors(s))
 ax: plt.Axes
 fig, ax = plt.subplots()
 ax.plot(x, [results[i] for i in x], label="Medición")
