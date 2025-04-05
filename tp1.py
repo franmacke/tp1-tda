@@ -17,7 +17,7 @@ def main(argv):
 
     input_file = argv[1]
 
-    respuesta = algoritmo(input_file)
+    respuesta = algoritmo(path=input_file)
     print(respuesta)
 
 
