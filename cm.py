@@ -9,7 +9,7 @@ import seaborn as sns
 import numpy as np
 import scipy as sp
 
-from utilidad import time_algorithm
+from analisis_complejidad_cm.utilidad import time_algorithm
 from greedy import algoritmo
 from tests.generador import Generador
 
@@ -29,7 +29,7 @@ def get_random_timestamps_with_errors(size: int):
     return [(np.random.randint(0, 100000), np.random.randint(1, 101)) for _ in range(size)]
 
 def get_random_timestamps_with_errors_and_transacciones(size: int):
-    timestamps, transacciones = Generador.generar_caso_es_sospechoso(size, 100, (1, 100000))
+    timestamps, transacciones = Generador.generar_caso_es_sospechoso(size, 100, (1, 100))
 
     return (None, timestamps, transacciones)
 
@@ -37,22 +37,27 @@ def get_random_timestamps_with_errors_and_transacciones(size: int):
 
 # La variable x van a ser los valores del eje x de los gráficos en todo el notebook
 # Tamaño mínimo=100, tamaño máximo=10kk, cantidad de puntos=20
-x = np.linspace(100, 1_000_000, 20).astype(int)
-
+x = np.linspace(100, 100_000, 20).astype(int)
 
 results = time_algorithm(algoritmo, x, lambda s: get_random_timestamps_with_errors_and_transacciones(s))
 print(results)
-
-
-ax: plt.Axes
+# ax: plt.Axes
+# fig, ax = plt.subplots()
+# ax.plot(x, [results[i] for i in x], label="Medición")
+# ax.set_title('Tiempo de ejecución de algoritmo')
+# ax.set_xlabel('Tamaño del array')
+# ax.set_ylabel('Tiempo de ejecución (s)')
+# None
 fig, ax = plt.subplots()
 ax.plot(x, [results[i] for i in x], label="Medición")
-ax.set_title('Tiempo de ejecución de algoritmo')
+ax.set_title('Tiempo de ejecución del algoritmo')
 ax.set_xlabel('Tamaño del array')
 ax.set_ylabel('Tiempo de ejecución (s)')
-None
+ax.legend()
+plt.show()
+plt.savefig("grafico_tiempo.png")
+
 # ACA DEBERIA SALIR UN GRAFICO!
-"""
 
 
 # #____________________________AJUSTE O ERROR POR CUADRADOS MINIMOS_____________________________________________________#
