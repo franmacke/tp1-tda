@@ -30,6 +30,8 @@ def get_random_timestamps_with_errors(size: int):
 x = np.linspace(100, 10_000_000, 20).astype(int)
 
 results = time_algorithm(algoritmo, x, lambda s: get_random_timestamps_with_errors(s))
+print(results)
+"""
 ax: plt.Axes
 fig, ax = plt.subplots()
 ax.plot(x, [results[i] for i in x], label="Medición")
@@ -38,6 +40,7 @@ ax.set_xlabel('Tamaño del array')
 ax.set_ylabel('Tiempo de ejecución (s)')
 None
 # ACA DEBERIA SALIR UN GRAFICO!
+"""
 
 
 # #____________________________AJUSTE O ERROR POR CUADRADOS MINIMOS_____________________________________________________#
