@@ -8,7 +8,6 @@ class CorridasTestCase(TestCase):
 
     def setUp(self):
         self.respuestas = leer_archivos_respuestas("data/Resultados Esperados.txt")
-        self.generador = Generador(10, 5)
 
     def test_son_el_sospechoso(self):
         for archivo, respuestas in self.respuestas.items():
@@ -36,7 +35,7 @@ class CorridasTestCase(TestCase):
 
 
     def test_generador_es_sospechoso(self):
-        timestamps, transacciones = self.generador.generar_caso_es_sospechoso(10, 5)
+        timestamps, transacciones = Generador.generar_caso_es_sospechoso(10, 5)
 
         resultado = algoritmo(timestamps=timestamps, transacciones=transacciones)
 
@@ -45,7 +44,7 @@ class CorridasTestCase(TestCase):
 
 
     def test_generador_no_es_sospechoso(self):
-        timestamps, transacciones = self.generador.generar_caso_no_es_sospechoso(10, 5)
+        timestamps, transacciones = Generador.generar_caso_no_es_sospechoso(10, 5)
 
         resultado = algoritmo(timestamps=timestamps, transacciones=transacciones)
 
