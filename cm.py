@@ -48,6 +48,7 @@ print(results)
 # ax.set_xlabel('Tamaño del array')
 # ax.set_ylabel('Tiempo de ejecución (s)')
 # None
+"""
 fig, ax = plt.subplots()
 ax.plot(x, [results[i] for i in x], label="Medición")
 ax.set_title('Tiempo de ejecución del algoritmo')
@@ -56,7 +57,7 @@ ax.set_ylabel('Tiempo de ejecución (s)')
 ax.legend()
 plt.show()
 plt.savefig("grafico_tiempo.png")
-
+"""
 # ACA DEBERIA SALIR UN GRAFICO!
 
 
@@ -65,23 +66,23 @@ plt.savefig("grafico_tiempo.png")
 # # función a ajustar: c_1 * n * n + c_2             ---------> nuestro algoritmo tiene pinta de ser O(n * n) = 0(n cuadrado)
 
 # # matriz A, cada fila es (n_i * n_i, 1)
-# A = np.array([[n * n, 1] for n in x])
+A = np.array([[n * n, 1] for n in x])
 
 # # vector b, cada elemento es el tiempo que tardó en ejecutar el algoritmo
-# b = np.array([results[n] for n in x])
+b = np.array([results[n] for n in x])
 
 # # encontramos traspuesta(A)*A
-# AtA = A.T @ A
+AtA = A.T @ A
 
 # # encontramos traspuesta(A)*b
-# Atb = A.T @ b
+Atb = A.T @ b
 
 # # resolvemos x = (traspuesta(A) * A)^-1 * traspuesta(A) * b
-# c = np.linalg.inv(AtA) @ Atb
+c = np.linalg.inv(AtA) @ Atb
 
-# print(f"c_1 = {c[0]}, c_2 = {c[1]}")
-# r = np.linalg.norm(A @ c - b)**2 # || Ax - b ||^2
-# print(f"Error cuadrático total: {r}")
+print(f"c_1 = {c[0]}, c_2 = {c[1]}")
+r = np.linalg.norm(A @ c - b)**2 # || Ax - b ||^2
+print(f"Error cuadrático total: {r}")
 
 # # ACA SE DEBERIA IMPRIMIR ALGO DE LA PINTA:
 # """
