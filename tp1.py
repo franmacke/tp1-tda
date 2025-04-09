@@ -15,6 +15,12 @@ def main(argv):
         test_runner.run(tests)
         sys.exit(0)
 
+    if argv[1] == "ejemplo":
+        from tests.generador import Generador
+        Generador.generar_ejemplos_con_explicacion()
+        Generador.generar_ejemplos_con_explicacion_no_sospechoso()
+        sys.exit(0)
+
     input_file = argv[1]
 
     respuesta = algoritmo(path=input_file)
